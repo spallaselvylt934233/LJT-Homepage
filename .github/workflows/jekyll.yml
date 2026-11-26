@@ -31,13 +31,14 @@ jobs:
       - name: Inspect generated pages
         run: |
           python - <<'PY'
-          import re, pathlib
+          import re, pathlib, html
           for f in ['_site/index.html', '_site/publications/index.html', '_site/cv/index.html']:
               text = pathlib.Path(f).read_text()
               print("==== PAGE:", f)
               print("TITLE:", re.findall(r'<title>(.*?)</title>', text))
-              match = re.search(r'<section class="page__content"[^>]*>(.*?)</section>', text, re.S)
-              body = match.group(1) if match else 'NO CONTENT SECTION FOUND'
-              print("CONTENT:", re.sub(r'\s+', ' ', body)[:6000])
+              print("HEADINGS:", re.findall(r'<h2[^>]*>(.*?)</h2>', text, re.S))
+              print("LISTED TITLES:", [html.unescape(re.sub(r'<[^>]+>', '', t)) for t in re.findall(r'archive__item-title[^>]*>\s*<a[^>]*>(.*?)</a>', text, re.S)])
+              print("VENUES:", [re.sub(r'\s+', ' ', v) for v in re.findall(r'Published in.*?</p>', text, re.S)])
+              print("CONTACT LINKS:", sorted(set(re.findall(r'href="(mailto:[^"]*|https://github\.com/Vicent0205|https://twitter\.com/junteng88716710|https://scholar\.google[^\"]*)"', text))))
               print("AVATAR TAGS:", re.findall(r'<img[^>]*author__avatar[^>]*>', text))
           PY
