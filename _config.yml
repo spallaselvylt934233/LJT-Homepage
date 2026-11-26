@@ -15,7 +15,7 @@ name                     : &name "Junteng Liu"
 description              : &description "Academic portfolio of Junteng Liu"
 url                      : https://spallaselvylt934233.github.io # The base hostname & protocol for your site
 baseurl                  : "/LJT-Homepage" # the subpath of your site
-epository                : "spallaselvylt934233/LJT-Homepage"
+repository               : "spallaselvylt934233/LJT-Homepage"
 
 # Site Author - The following control what appear as part of the author content on the side bar.
 #               If a field is blank the icon and link will not appear, otherwise it will be shown.
