@@ -34,8 +34,10 @@ jobs:
           import re, pathlib
           for f in ['_site/index.html', '_site/publications/index.html', '_site/cv/index.html']:
               text = pathlib.Path(f).read_text()
-              print("==== RENDERED PAGE:", f)
+              print("==== PAGE:", f)
+              print("TITLE:", re.findall(r'<title>(.*?)</title>', text))
               match = re.search(r'<section class="page__content"[^>]*>(.*?)</section>', text, re.S)
-              print(re.sub(r'\s+', ' ', match.group(1)) if match else 'NO CONTENT SECTION FOUND')
-              print("==== SIDEBAR:", re.sub(r'\s+', ' ', re.search(r'<div itemscope itemtype="http://schema.org/Person">(.*?)</div>\s*</div>', text, re.S).group(0))[:2000])
+              body = match.group(1) if match else 'NO CONTENT SECTION FOUND'
+              print("CONTENT:", re.sub(r'\s+', ' ', body)[:6000])
+              print("AVATAR TAGS:", re.findall(r'<img[^>]*author__avatar[^>]*>', text))
           PY
